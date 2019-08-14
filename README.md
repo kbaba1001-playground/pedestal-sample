@@ -25,6 +25,16 @@ To learn more about configuring Logback, read its [documentation](http://logback
 3. Connect your editor to the running REPL session.
    Re-evaluated code will be seen immediately in the service.
 
+### watch
+
+```
+$ lein repl
+user=> (in-ns 'pedestal-sample.service)
+pedestal-sample.service=> (def dev-serv (run-dev))   ; run server
+pedestal-sample.service=> (require 'io.pedestal.service-tools.dev)
+pedestal-sample.service=> (io.pedestal.service-tools.dev/watch)   ; watch src directory
+```
+
 ### [Docker](https://www.docker.com/) container support
 
 1. Configure your service to accept incoming connections (edit service.clj and add  ::http/host "0.0.0.0" )
