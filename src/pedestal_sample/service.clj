@@ -10,9 +10,20 @@
                               (clojure-version)
                               (route/url-for ::about-page))))
 
-(defn home-page
-  [request]
-  (ring-resp/response "Hello World!"))
+(def unmentionables #{"YHWH" "Voldemort" "Mxyzptlk" "Rumplestiltskin" "曹操"})
+
+(defn greeting-for [nm]
+  (cond
+    (unmentionables nm) nil
+    (empty? nm)         "Hello, World\n"
+    :else               (str "Hello, " nm "\n")))
+
+(defn home-page [request]
+  (let [nm (get-in request [:query-params :name])
+        resp (greeting-for nm)]
+    (if resp 
+      (ring-resp/response resp)
+      (ring-resp/not-found "unmentionables"))))
 
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
